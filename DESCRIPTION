@@ -1,14 +1,17 @@
 Package: scCCESS
 Type: Package
-Title: Single-cell Consensus Clusters of Encoded Subspaces
+Title: scCCESS: Single-cell Consensus Clusters of Encoded Subspaces
 Version: 0.1.0
 Author: Thomas A. Geddes, Lijia Yu
-Maintainer: Lijia Yu <yulj2010@gmail.com>
-Description: Building on single-cell Consensus Clusters of Encoded Subspaces (scCCESS), 
-a clustering stability-based approach for the number of cell type estimation. 
+Authors@R: c(
+    person("Thomas A.", "Geddes",role = c("aut")
+    ),
+    person("Lijia", "Yu", email = "yulj2010@gmail.com", role = c("aut","cre"))
+    )
+Description: Building on single-cell Consensus Clusters of Encoded Subspaces (scCCESS), a clustering stability metric based approach for the number of cell type estimation. 
 License: GPL
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Depends:
     R (>= 4.0.0)
 biocViews:
@@ -25,4 +28,4 @@ Suggests:
     SIMLR,
     SingleCellExperiment
 RoxygenNote: 7.1.1
-
+BugReports: https://github.com/SydneyBioX/CiteFuse/issues
