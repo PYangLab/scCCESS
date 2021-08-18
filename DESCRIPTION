@@ -27,4 +27,4 @@ Suggests:
     SIMLR,
     SingleCellExperiment
 RoxygenNote: 7.1.1
-BugReports: https://github.com/SydneyBioX/CiteFuse/issues
+BugReports: https://github.com/PYangLab/scCCESS/issues
