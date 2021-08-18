@@ -2,7 +2,6 @@ Package: scCCESS
 Type: Package
 Title: scCCESS: Single-cell Consensus Clusters of Encoded Subspaces
 Version: 0.1.0
-Author: Thomas A. Geddes, Lijia Yu
 Authors@R: c(
     person("Thomas A.", "Geddes",role = c("aut")
     ),
