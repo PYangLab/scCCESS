@@ -2,7 +2,7 @@
 % Please edit documentation in R/scCCESS.R
 \name{estimate_k}
 \alias{estimate_k}
-\title{Estimated number of clusters via clustering stability metric}
+\title{Estimated number of clusters via stability metrics}
 \usage{
 estimate_k(
   dat,
@@ -16,25 +16,45 @@ estimate_k(
 )
 }
 \arguments{
-\item{dat}{input scRNAseq count data}
+\item{dat}{A matrix, data frame or tibble containing scRNA-seq expression values. By default,
+genes are assumed to be represented by columns and samples are assumed to be
+represented by rows (but see the argument genes_as_rows under the encode function).
+NA values are not supported, but may be replaced by 0s.}
 
-\item{seed}{radom seed}
+\item{seed}{random seed}
 
-\item{criteria_method}{criteria used to measure stability}
+\item{criteria_method}{stability metrics to be used, default is NMI, this should be one of "NMI", "ARI", "Jaccard".}
 
-\item{cluster_func}{clustering function}
+\item{cluster_func}{Any clustering function which will accept a matrix (rows as samples, columns as features).
+It could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.}
 
-\item{krange}{range of k}
+\item{krange}{a set of k (e.g. 2:10) that could be estimated as the number of cell types.}
 
-\item{ensemble_sizes}{ensemble size}
+\item{ensemble_sizes}{A vector of integers. Number of individual clusterings to be used in
+each ensemble clustering returned.}
 
-\item{cores}{number of cores}
+\item{cores}{Number of CPU cores to be used in parallel for individual and ensemble clustering.}
 
-\item{...}{other parameters that used in encode function}
+\item{...}{Optional arguments to be passed to the encode function.}
 }
 \value{
 the number of cell types
 }
 \description{
-Estimated number of clusters via clustering stability metric
+Estimated number of clusters via stability metrics
+}
+\examples{
+
+# library(SingleCellExperiment)
+# library(scCCESS)
+# data("sce", package = "scCCESS")
+# dat=SingleCellExperiment::counts(sce)
+# k = estimate_k(dat,
+#                seed = 1,
+#                cluster_func = function(x,centers) { set.seed(42);kmeans(x, centers)},
+#                criteria_method = "NMI",
+#                krange = 2:20, ensemble_sizes = 10,
+#                cores = 8)
+
+
 }

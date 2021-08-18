@@ -1,15 +1,25 @@
-#' pre-filtering function
-#' Filter input dataset
+#' prefilter
+#'
+#' Quality control: to filter the data to only include true cells that are of high quality
 #'
 #'
 #' @param table input scRNAseq matrix, where each row represents a gene
 #' and each column represents a single cell with a raw count for every row (gene) in the matrix.
-#' @param minReads minimum reads count per cell
-#' @param minGene minimum gene that have counts more than \code{minCountsperGene}
-#' @param minCountsperGene at least how many counts are required for each gene
+#' @param minReads minimum reads count (UMI) per cell
+#' @param minGene minimum gene that have counts (UMI) more than \code{minCountsperGene}
+#' @param minCountsperGene minimum counts (UMI) are required for each gene
 #' @param removeZeroGene remove genes that has zero counts were detected in the cell
 #'
 #' @return a filtered scRNAseq expression matrix
+#'
+#'@examples
+#'
+#' # library(SingleCellExperiment)
+#' # library(scCCESS)
+#' # data("sce", package = "scCCESS")
+#' # dat=SingleCellExperiment::counts(sce)
+#' # dat.filtered=prefilter(dat)
+#'
 #'
 #' @export
 #'
@@ -33,15 +43,15 @@ prefilter = function(table, minReads = 1000, minGene = 100, minCountsperGene = 1
 
 #' Generates an encoded subspace of a single-cell RNA-seq expression matrix
 #'
-#'This function accepts a single scRNA-seq expression matrix,
-#'randomly samples a number of genes without replacement
-#'and trains an autoencoder artificial neural network on the resulting data.
-#'The function uses part of this network to encode cell data within
-#'a lower-dimensional latent space and returns the encoded matrix.
-#'This function does not need to be called directly by the user for clustering (see ensemble_cluster function below),
-#'but is provided for greater flexibility.
-#'It is not recommended to run this function in parallel
-#'as model training makes use of resources in parallel (CPU cores or GPU, depending on computer setup).
+#' This function accepts a single scRNA-seq expression matrix,
+#' randomly samples a number of genes without replacement
+#' and trains an autoencoder artificial neural network on the resulting data.
+#' The function uses part of this network to encode cell data within
+#' a lower-dimensional latent space and returns the encoded matrix.
+#' This function does not need to be called directly by the user for clustering (see ensemble_cluster function below),
+#' but is provided for greater flexibility.
+#' It is not recommended to run this function in parallel
+#' as model training makes use of resources in parallel (CPU cores or GPU, depending on computer setup).
 #'
 #'
 #' @param dat  A raw data matrix, data frame or tibble containing scRNA-seq expression values. By default,
@@ -70,12 +80,24 @@ prefilter = function(table, minReads = 1000, minGene = 100, minCountsperGene = 1
 #'
 #' @return An encoded expression matrix wherein cells are represented by rows and latent features are represented by columns.
 #'
-#' @keywords internal
+#'
+#' @examples
+#'
+#' # library(SingleCellExperiment)
+#' # library(scCCESS)
+#' # data("sce", package = "scCCESS")
+#' # dat=SingleCellExperiment::counts(sce)
+#' # dat.filtered=prefilter(dat)
+#' # encoding = encode(dat.filtered, seed = 1,
+#' #                   genes_as_rows = T, ensemble_sizes = 10,
+#' #                   verbose = 0, scale = F, batch_size = 64,
+#' #                   cores=8)
 #'
 #' @import keras tensorflow
 #' @importFrom methods is
 #' @importFrom stats kmeans median predict sd
 #'
+#' @export
 encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16, hidden_dims = c(128), learning_rate = 0.001, batch_size = 32, epochs = 100, verbose = 2, scale = FALSE, genes_as_rows = FALSE,cores=1) {
   if (verbose[1] %in% 0:2) {
     verbose = verbose[1]
@@ -151,14 +173,37 @@ encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16,
 
 #' Generates an ensemble clustering of a single-cell RNA-seq expression matrix
 #'
-#' @param dat  a raw scRNAseq matrix, it could be a filtered matrix by  prefilter()  funtion
-#' @param seed random seed
-#' @param cluster_func clustering function, could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.
-#' @param ensemble_sizes ensemble size
-#' @param cores number of cores
-#' @param ... other parameters that used in encode function
 #'
-#' @return ensemble cluster of all projections
+#'
+#' @param dat  A matrix, data frame or tibble containing scRNA-seq expression values. By default,
+#' genes are assumed to be represented by columns and samples are assumed to be
+#' represented by rows (but see the argument genes_as_rows under the encode function).
+#' NA values are not supported, but may be replaced by 0s.
+#' @param seed  Used to generate random seeds for the encode function and acts as a random seed
+#' for stochastic clustering functions.
+#' @param cluster_func Any clustering function which will accept a matrix (rows as samples, columns as features).
+#' It could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.
+#' @param ensemble_sizes A vector of integers. Number of individual clusterings to be used in
+#' each ensemble clustering returned.
+#' @param cores  Number of CPU cores to be used in parallel for individual and ensemble clustering.
+#' @param ...   Optional arguments to be passed to the encode function.
+#'
+#' @return A list of length len(ensemble_sizes) containing vectors of consensus clusters per cell.
+#' Each ensemble clustering is generated using a number of individual clusterings
+#' given by the corresponding element in the ensemble_sizes argument.
+#'
+#' @examples
+#'
+#' # library(SingleCellExperiment)
+#' # library(scCCESS)
+#' # data("sce", package = "scCCESS")
+#' # dat=SingleCellExperiment::counts(sce)
+#' # cluster = ensemble_cluster(dat, seed = 1, cluster_func = function(x) { set.seed(42)
+#' #                            kmeans(x, centers = 7)},
+#' #                            cores = 8, genes_as_rows = T,
+#' #                            ensemble_sizes = 10, verbose = 0,
+#' #                            scale = F, batch_size = 64)
+#'
 #' @export
 #'
 #' @importFrom parallel mclapply
@@ -208,6 +253,11 @@ ensemble_cluster = function(dat, seed = 1, cluster_func = function(x) kmeans(x, 
 #' @param criteria measures include ARI, NMI, FM, and Jaccard index
 #'
 #' @return the similarity value of two clusters.
+#'
+#' @examples
+#'
+#' # criteria_compare(x=c(1,2,2,2,1,2),y=c(1,2,2,3,1,2),"ARI")
+#'
 #' @keywords internal
 #'
 #' @import aricode clusterCrit
@@ -225,18 +275,39 @@ criteria_compare = function(x, y, criteria) {
 
 
 
-#' Estimated number of clusters via clustering stability metric
+#' Estimated number of clusters via stability metrics
 #'
-#' @param dat input scRNAseq count data
-#' @param seed radom seed
-#' @param criteria_method criteria used to measure stability
-#' @param cluster_func clustering function
-#' @param krange range of k
-#' @param ensemble_sizes ensemble size
-#' @param cores number of cores
-#' @param ... other parameters that used in encode function
+#'
+#'
+#' @param dat A matrix, data frame or tibble containing scRNA-seq expression values. By default,
+#' genes are assumed to be represented by columns and samples are assumed to be
+#' represented by rows (but see the argument genes_as_rows under the encode function).
+#' NA values are not supported, but may be replaced by 0s.
+#' @param seed random seed
+#' @param criteria_method stability metrics to be used, default is NMI, this should be one of "NMI", "ARI", "Jaccard".
+#' @param cluster_func Any clustering function which will accept a matrix (rows as samples, columns as features).
+#' It could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.
+#' @param krange a set of k (e.g. 2:10) that could be estimated as the number of cell types.
+#' @param ensemble_sizes A vector of integers. Number of individual clusterings to be used in
+#' each ensemble clustering returned.
+#' @param cores Number of CPU cores to be used in parallel for individual and ensemble clustering.
+#' @param ... Optional arguments to be passed to the encode function.
 #'
 #' @return the number of cell types
+#'
+#' @examples
+#'
+#' # library(SingleCellExperiment)
+#' # library(scCCESS)
+#' # data("sce", package = "scCCESS")
+#' # dat=SingleCellExperiment::counts(sce)
+#' # k = estimate_k(dat,
+#' #                seed = 1,
+#' #                cluster_func = function(x,centers) { set.seed(42);kmeans(x, centers)},
+#' #                criteria_method = "NMI",
+#' #                krange = 2:20, ensemble_sizes = 10,
+#' #                cores = 8)
+#'
 #'
 #' @importFrom parallel mclapply
 #' @importFrom methods is

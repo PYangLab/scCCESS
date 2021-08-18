@@ -14,21 +14,42 @@ ensemble_cluster(
 )
 }
 \arguments{
-\item{dat}{a raw scRNAseq matrix, it could be a filtered matrix by  prefilter()  funtion}
+\item{dat}{A matrix, data frame or tibble containing scRNA-seq expression values. By default,
+genes are assumed to be represented by columns and samples are assumed to be
+represented by rows (but see the argument genes_as_rows under the encode function).
+NA values are not supported, but may be replaced by 0s.}
 
-\item{seed}{random seed}
+\item{seed}{Used to generate random seeds for the encode function and acts as a random seed
+for stochastic clustering functions.}
 
-\item{cluster_func}{clustering function, could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.}
+\item{cluster_func}{Any clustering function which will accept a matrix (rows as samples, columns as features).
+It could be any function that need provide a range of k, such as K-means, SIMLR, C-means, K-medoids, etc.}
 
-\item{ensemble_sizes}{ensemble size}
+\item{ensemble_sizes}{A vector of integers. Number of individual clusterings to be used in
+each ensemble clustering returned.}
 
-\item{cores}{number of cores}
+\item{cores}{Number of CPU cores to be used in parallel for individual and ensemble clustering.}
 
-\item{...}{other parameters that used in encode function}
+\item{...}{Optional arguments to be passed to the encode function.}
 }
 \value{
-ensemble cluster of all projections
+A list of length len(ensemble_sizes) containing vectors of consensus clusters per cell.
+Each ensemble clustering is generated using a number of individual clusterings
+given by the corresponding element in the ensemble_sizes argument.
 }
 \description{
 Generates an ensemble clustering of a single-cell RNA-seq expression matrix
+}
+\examples{
+
+# library(SingleCellExperiment)
+# library(scCCESS)
+# data("sce", package = "scCCESS")
+# dat=SingleCellExperiment::counts(sce)
+# cluster = ensemble_cluster(dat, seed = 1, cluster_func = function(x) { set.seed(42)
+#                            kmeans(x, centers = 7)},
+#                            cores = 8, genes_as_rows = T,
+#                            ensemble_sizes = 10, verbose = 0,
+#                            scale = F, batch_size = 64)
+
 }

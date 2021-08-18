@@ -2,8 +2,7 @@
 % Please edit documentation in R/scCCESS.R
 \name{prefilter}
 \alias{prefilter}
-\title{pre-filtering function
-Filter input dataset}
+\title{prefilter}
 \usage{
 prefilter(
   table,
@@ -17,11 +16,11 @@ prefilter(
 \item{table}{input scRNAseq matrix, where each row represents a gene
 and each column represents a single cell with a raw count for every row (gene) in the matrix.}
 
-\item{minReads}{minimum reads count per cell}
+\item{minReads}{minimum reads count (UMI) per cell}
 
-\item{minGene}{minimum gene that have counts more than \code{minCountsperGene}}
+\item{minGene}{minimum gene that have counts (UMI) more than \code{minCountsperGene}}
 
-\item{minCountsperGene}{at least how many counts are required for each gene}
+\item{minCountsperGene}{minimum counts (UMI) are required for each gene}
 
 \item{removeZeroGene}{remove genes that has zero counts were detected in the cell}
 }
@@ -29,6 +28,15 @@ and each column represents a single cell with a raw count for every row (gene) i
 a filtered scRNAseq expression matrix
 }
 \description{
-pre-filtering function
-Filter input dataset
+Quality control: to filter the data to only include true cells that are of high quality
+}
+\examples{
+
+# library(SingleCellExperiment)
+# library(scCCESS)
+# data("sce", package = "scCCESS")
+# dat=SingleCellExperiment::counts(sce)
+# dat.filtered=prefilter(dat)
+
+
 }
