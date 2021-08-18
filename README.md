@@ -9,7 +9,7 @@ This repository stores the R implementation of scCCESS with stability-based appr
 
 ```
 if (!require("pacman")) install.packages("devtools")
-devtools::install_github('scCCESS')
+devtools::install_github('PYangLab/scCCESS')
 ```
 
 Package required to use this package:
