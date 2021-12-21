@@ -156,7 +156,7 @@ encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16,
   tns = ae_input = layer_input(final_proj_dim)
   tns = decoder(encoder(tns))
   autoencoder = keras_model(inputs = ae_input, outputs = tns)
-  compile(autoencoder, optimizer = optimizer_adam(lr = learning_rate), loss = 'mean_squared_error')
+  compile(autoencoder, optimizer = optimizer_adam(learning_rate = learning_rate), loss = 'mean_squared_error')
 
   # Fit autoencoder model
   fit(autoencoder, dat, dat, batch_size = batch_size, epochs = epochs, verbose = verbose)
@@ -227,7 +227,11 @@ ensemble_cluster = function(dat, seed = 1, cluster_func = function(x) kmeans(x, 
   cat("Generating consensus clusters...\n")
   ensemble_clusters = mclapply(ensemble_sizes, function(size) {
     if (size == 1) {
-      return(sample(individual_clusters, 1)[[1]]$cluster)
+      if(grepl("SIMLR",deparse1(cluster_func))){
+       return(sample(individual_clusters, 1)[[1]]$y$cluster)
+      }else{
+        return(sample(individual_clusters, 1)[[1]]$cluster)
+      }
     } else {
       consensus = sample(individual_clusters, size, replace = FALSE)
       if(grepl("SIMLR",deparse1(cluster_func))){
