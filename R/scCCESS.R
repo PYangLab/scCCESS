@@ -96,6 +96,8 @@ prefilter = function(table, minReads = 1000, minGene = 100, minCountsperGene = 1
 #' @import keras tensorflow
 #' @importFrom methods is
 #' @importFrom stats kmeans median predict sd
+#' @importFrom utils packageVersion
+#'
 #'
 #' @export
 encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16, hidden_dims = c(128), learning_rate = 0.001, batch_size = 32, epochs = 100, verbose = 2, scale = FALSE, genes_as_rows = FALSE,cores=1) {
@@ -156,7 +158,12 @@ encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16,
   tns = ae_input = layer_input(final_proj_dim)
   tns = decoder(encoder(tns))
   autoencoder = keras_model(inputs = ae_input, outputs = tns)
-  compile(autoencoder, optimizer = optimizer_adam(learning_rate = learning_rate), loss = 'mean_squared_error')
+  if(packageVersion("keras")>="2.6.0"){
+    compile(autoencoder, optimizer = optimizer_adam(learning_rate = learning_rate), loss = 'mean_squared_error')
+  }else{
+    compile(autoencoder, optimizer = optimizer_adam(lr = learning_rate), loss = 'mean_squared_error')
+  }
+
 
   # Fit autoencoder model
   fit(autoencoder, dat, dat, batch_size = batch_size, epochs = epochs, verbose = verbose)
