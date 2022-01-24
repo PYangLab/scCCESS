@@ -1,8 +1,6 @@
-# scCCESS
+# scCCESS for cell clustering and number of cell type estimation from scRNA-seq
 
-single-cell Consensus Clusters of Encoded Subspaces
-
-This repository stores the R implementation of scCCESS with stability-based approach for estimating number of cell types.
+scCCESS stands for single-cell Consensus Clusters of Encoded Subspaces. This repository stores the R implementation of scCCESS with stability-based approach for estimating number of cell types.
 
 
 ## Installation
