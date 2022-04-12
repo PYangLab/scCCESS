@@ -1,7 +1,7 @@
 Package: scCCESS
 Type: Package
 Title: scCCESS: Single-cell Consensus Clusters of Encoded Subspaces
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Thomas A.", "Geddes",role = c("aut")
     ),
@@ -22,9 +22,10 @@ Imports:
     clusterCrit,
     tensorflow (>= 2.2.0),
     methods,
-    stats
+    stats,
+    utils
 Suggests:
     SIMLR,
     SingleCellExperiment
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 BugReports: https://github.com/PYangLab/scCCESS/issues
