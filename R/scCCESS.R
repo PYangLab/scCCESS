@@ -269,7 +269,7 @@ ensemble_cluster = function(dat, seed = 1, cluster_func = function(x) kmeans(x, 
 criteria_compare = function(x, y, criteria) {
   res = switch(criteria,
                "ARI" = round(ARI(x, y), digits = 5),
-               "NMI" = round(ARI(x, y), digits = 5),
+               "NMI" = round(NMI(x, y), digits = 5),
                "FM" =  round(extCriteria(x, y, "Folkes_Mallows")$folkes_mallows, digits = 5),
                "Jaccard" =  round(extCriteria(x, y, "Jaccard")$jaccard, digits = 5)
   )
