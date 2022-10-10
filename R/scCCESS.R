@@ -20,6 +20,7 @@
 #' # dat=SingleCellExperiment::counts(sce)
 #' # dat.filtered=prefilter(dat)
 #'
+#' @importFrom Matrix colSums rowSums
 #'
 #' @export
 #'
@@ -98,7 +99,6 @@ prefilter = function(table, minReads = 1000, minGene = 100, minCountsperGene = 1
 #' @importFrom stats kmeans median predict sd
 #' @importFrom utils packageVersion
 #'
-#'
 #' @export
 encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16, hidden_dims = c(128), learning_rate = 0.001, batch_size = 32, epochs = 100, verbose = 2, scale = FALSE, genes_as_rows = FALSE,cores=1) {
   if (verbose[1] %in% 0:2) {
@@ -108,8 +108,8 @@ encode = function(dat, seed = 1, max_random_projection = 2048, encoded_dim = 16,
   }
 
   set.seed(seed)
-  was_data_frame = is.data.frame(dat)
-  if (was_data_frame) dat = as.matrix(dat)
+  was_data_frame=is.data.frame(dat)
+  if (is.data.frame(dat)||is(dat,"Matrix")) dat = as.matrix(dat)
   if (!is(dat,"matrix")) stop("Input data must be dataframe or matrix.")
 
   # Transpose

@@ -38,5 +38,4 @@ Quality control: to filter the data to only include true cells that are of high 
 # dat=SingleCellExperiment::counts(sce)
 # dat.filtered=prefilter(dat)
 
-
 }
