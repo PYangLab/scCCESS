@@ -157,7 +157,7 @@ Estimated number of clusters via clustering stability metric
 **Usage**
 
 ```
-estimate_k(dat, seed = 1, criteria_method = "NMI", cluster_func = function(x) kmeans(x, centers=5), krange = 2:25, ensemble_sizes = c(1, 5, 10, 20, 50), cores = 1, ...)
+estimate_k(dat, seed = 1, criteria_method = "NMI", cluster_func = function(x) kmeans(x, centers), krange = 2:25, ensemble_sizes = c(1, 5, 10, 20, 50), cores = 1, ...)
 ```
 
 
@@ -202,7 +202,7 @@ data(sce, package = 'scCCESS')
 dat=SingleCellExperiment::counts(sce)
 
 dat=prefilter(dat)
-k = estimate_k(dat,
+res = estimate_k(dat,
                seed = 1, 
                cluster_func = function(x,centers) { 
                  set.seed(42);
@@ -217,7 +217,7 @@ cluster = ensemble_cluster(dat,
                           seed = 1, 
                           cluster_func = function(x) {
                             set.seed(1)
-                            kmeans(x, centers = k)
+                            kmeans(x, centers = res$k)
                           }, 
                           cores = 8, 
                           genes_as_rows = T, 
@@ -243,7 +243,7 @@ library(SIMLR)
 data(sce, package = 'scCCESS')
 dat=SingleCellExperiment::counts(sce)
 
-k = estimate_k(dat,
+res = estimate_k(dat,
                seed = 1, 
                cluster_func = function(x,centers) {
                  set.seed(42);
@@ -259,7 +259,7 @@ cluster = ensemble_cluster(dat,
                           seed = 1, 
                           cluster_func = function(x) {
                             set.seed(1)
-                            SIMLR_Large_Scale(t(x), c=k,kk=15)
+                            SIMLR_Large_Scale(t(x), c=res$k,kk=15)
                           }, 
                           cores = 8, 
                           genes_as_rows = T, 

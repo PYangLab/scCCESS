@@ -304,7 +304,7 @@ criteria_compare = function(x, y, criteria) {
 #' @param cores Number of CPU cores to be used in parallel for individual and ensemble clustering.
 #' @param ... Optional arguments to be passed to the encode function.
 #'
-#' @return the number of cell types
+#' @return the number of cell types, and the pairwise stability score of each k
 #'
 #' @examples
 #'
@@ -341,6 +341,7 @@ estimate_k = function(dat, seed = 1, criteria_method = "NMI", cluster_func = fun
   mc = lapply(individual_encodings, function(X) mclapply(krange, cluster_func, mc.cores = cores ,x = X))
   df =list()
   criteria.result = c()
+  criteria.list=list()
   for (i in 1:length(krange)) {
     df[[i]] = do.call(rbind, lapply(mc, function(x) {
       if(grepl("SIMLR",deparse1(cluster_func))){
@@ -359,10 +360,13 @@ estimate_k = function(dat, seed = 1, criteria_method = "NMI", cluster_func = fun
         l = l + 1
       }
     }
-
+    criteria.list[[i]] = criteria
     criteria.result[i] = median(criteria)
   }
 
+
+  stability.df=data.frame(do.call(cbind,criteria.list))
+  colnames(stability.df)=krange
   ngroups = krange[which.max(criteria.result)]
-  return(ngroups)
+  return(list(ngroups=ngroups,stability.df=stability.df))
 }
