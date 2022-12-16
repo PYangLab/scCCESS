@@ -251,9 +251,13 @@ ensemble_cluster = function(dat, seed = 1, cluster_func = function(x) kmeans(x, 
     }
   }, mc.cores = cores)
 
-  names(ensemble_clusters) = as.character(ensemble_sizes)
+  if(length(ensemble_sizes)==1){
+    return(unlist(ensemble_clusters))
+  }else{
+    names(ensemble_clusters) = as.character(ensemble_sizes)
+    return(ensemble_clusters)
+  }
 
-  return(ensemble_clusters)
 }
 
 

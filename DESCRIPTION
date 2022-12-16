@@ -1,7 +1,7 @@
 Package: scCCESS
 Type: Package
 Title: scCCESS: Single-cell Consensus Clusters of Encoded Subspaces
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: c(
     person("Thomas A.", "Geddes",role = c("aut")
     ),

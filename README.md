@@ -217,7 +217,7 @@ cluster = ensemble_cluster(dat,
                           seed = 1, 
                           cluster_func = function(x) {
                             set.seed(1)
-                            kmeans(x, centers = res$k)
+                            kmeans(x, centers = res$ngroups)
                           }, 
                           cores = 8, 
                           genes_as_rows = T, 
@@ -259,7 +259,7 @@ cluster = ensemble_cluster(dat,
                           seed = 1, 
                           cluster_func = function(x) {
                             set.seed(1)
-                            SIMLR_Large_Scale(t(x), c=res$k,kk=15)
+                            SIMLR_Large_Scale(t(x), c=res$ngroups,kk=15)
                           }, 
                           cores = 8, 
                           genes_as_rows = T, 
