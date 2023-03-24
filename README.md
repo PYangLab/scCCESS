@@ -269,3 +269,9 @@ cluster = ensemble_cluster(dat,
                           batch_size = 64
 )
 ```
+
+## References
+Yu, L., Cao, Y., Yang, J. & Yang, P.† (2022) Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data. _Genome Biology_, 23, 49. [[Full Text](https://doi.org/10.1186/s13059-022-02622-0)]
+
+
+Geddes, T., Kim, T., Nan, L., Burchfield, J., Yang, J., Tao, D. & Yang, P.† (2019) Autoencoder-based cluster ensembles for single-cell RNA-seq data analysis. BMC Bioinformatics, 20, 660. [[Full Text](https://doi.org/10.1186/s12859-019-3179-5)]
