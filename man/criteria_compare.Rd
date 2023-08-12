@@ -11,7 +11,7 @@ criteria_compare(x, y, criteria)
 
 \item{y}{clusters B}
 
-\item{criteria}{measures include ARI, NMI, FM, and Jaccard index}
+\item{criteria}{measures include ARI, NMI}
 }
 \value{
 the similarity value of two clusters.

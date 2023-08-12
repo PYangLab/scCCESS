@@ -38,7 +38,7 @@ each ensemble clustering returned.}
 \item{...}{Optional arguments to be passed to the encode function.}
 }
 \value{
-the number of cell types
+the number of cell types, and the pairwise stability score of each k
 }
 \description{
 Estimated number of clusters via stability metrics
