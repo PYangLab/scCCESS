@@ -3,12 +3,17 @@ Type: Package
 Title: scCCESS: Single-cell Consensus Clusters of Encoded Subspaces
 Version: 0.3.3
 Authors@R: c(
-    person("Thomas A.", "Geddes",role = c("aut")
-    ),
-    person("Lijia", "Yu", email = "yulj2010@gmail.com", role = c("aut","cre"))
+    person("Thomas A.", "Geddes", role = c("aut")),
+    person("Lijia", "Yu", email = "yulj2010@gmail.com", role = c("aut", "cre")),
+    person("Pengyi", "Yang", email = "pengyi.yang@sydney.edu.au", role = c("aut", "cph"))
     )
-Description: Building on single-cell Consensus Clusters of Encoded Subspaces (scCCESS), a clustering stability metric based approach for the number of cell type estimation. 
-License: GPL
+Author: Thomas A. Geddes, Lijia Yu, Pengyi Yang
+Maintainer: Lijia Yu <yulj2010@gmail.com>
+Description: Implements single-cell Consensus Clusters of Encoded Subspaces
+    (scCCESS), an autoencoder-based ensemble clustering framework for
+    single-cell RNA-seq data, together with a clustering stability approach for
+    estimating the number of cell types.
+License: GPL-3
 Encoding: UTF-8
 LazyData: false
 Depends:
@@ -26,6 +31,12 @@ Imports:
     Matrix
 Suggests:
     SIMLR,
-    SingleCellExperiment
+    SingleCellExperiment,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 RoxygenNote: 7.2.3
+URL: https://github.com/PYangLab/scCCESS
 BugReports: https://github.com/PYangLab/scCCESS/issues
+Config/testthat/edition: 3
+VignetteBuilder: knitr

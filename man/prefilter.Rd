@@ -22,7 +22,7 @@ and each column represents a single cell with a raw count for every row (gene) i
 
 \item{minCountsperGene}{minimum counts (UMI) are required for each gene}
 
-\item{removeZeroGene}{remove genes that has zero counts were detected in the cell}
+\item{removeZeroGene}{remove genes with zero total counts across all retained cells}
 }
 \value{
 a filtered scRNAseq expression matrix

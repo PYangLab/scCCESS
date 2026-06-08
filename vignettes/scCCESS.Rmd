@@ -1,0 +1,50 @@
+---
+title: "Using scCCESS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using scCCESS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, eval = FALSE}
+library(scCCESS)
+library(SingleCellExperiment)
+
+data("sce", package = "scCCESS")
+dat <- SingleCellExperiment::counts(sce)
+
+dat <- prefilter(dat)
+
+k_result <- estimate_k(
+  dat,
+  seed = 1,
+  cluster_func = function(x, centers) {
+    set.seed(42)
+    kmeans(x, centers)
+  },
+  criteria_method = "NMI",
+  krange = 5:15,
+  ensemble_sizes = 10,
+  cores = 1
+)
+
+clusters <- ensemble_cluster(
+  dat,
+  seed = 1,
+  cluster_func = function(x) {
+    set.seed(1)
+    kmeans(x, centers = k_result$ngroups)
+  },
+  genes_as_rows = TRUE,
+  ensemble_sizes = 10,
+  cores = 1,
+  verbose = 0,
+  scale = FALSE,
+  batch_size = 64
+)
+```
+
+The example uses `eval = FALSE` because scCCESS trains autoencoders through
+Keras/TensorFlow. Runtime depends on the configured TensorFlow backend and
+available CPU/GPU resources.

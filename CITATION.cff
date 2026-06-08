@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+message: "If you use scCCESS, please cite the relevant method papers."
+title: "scCCESS: Single-cell Consensus Clusters of Encoded Subspaces"
+version: 0.3.3
+license: GPL-3.0-only
+repository-code: "https://github.com/PYangLab/scCCESS"
+authors:
+  - family-names: Geddes
+    given-names: "Thomas A."
+  - family-names: Yu
+    given-names: Lijia
+  - family-names: Yang
+    given-names: Pengyi
+preferred-citation:
+  type: article
+  title: "Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data"
+  authors:
+    - family-names: Yu
+      given-names: Lijia
+    - family-names: Cao
+      given-names: Yue
+    - family-names: Yang
+      given-names: "Jean Yee Hwa"
+    - family-names: Yang
+      given-names: Pengyi
+  journal: "Genome Biology"
+  year: 2022
+  volume: 23
+  issue: 1
+  article-number: 49
+  doi: "10.1186/s13059-022-02622-0"
+  url: "https://doi.org/10.1186/s13059-022-02622-0"
+references:
+  - type: article
+    title: "Autoencoder-based cluster ensembles for single-cell RNA-seq data analysis"
+    authors:
+      - family-names: Geddes
+        given-names: "Thomas A."
+      - family-names: Kim
+        given-names: Taiyun
+      - family-names: Nan
+        given-names: Lihao
+      - family-names: Burchfield
+        given-names: "James G."
+      - family-names: Yang
+        given-names: "Jean Yee Hwa"
+      - family-names: Tao
+        given-names: Dacheng
+      - family-names: Yang
+        given-names: Pengyi
+    journal: "BMC Bioinformatics"
+    year: 2019
+    volume: 20
+    issue: 1
+    article-number: 660
+    doi: "10.1186/s12859-019-3179-5"
+    url: "https://doi.org/10.1186/s12859-019-3179-5"

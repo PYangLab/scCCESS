@@ -1,0 +1,40 @@
+citHeader("If you use scCCESS, please cite the relevant method papers.")
+
+citEntry(
+  entry = "Article",
+  title = "Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data",
+  author = personList(
+    person("Lijia", "Yu"),
+    person("Yue", "Cao"),
+    person("Jean Yee Hwa", "Yang"),
+    person("Pengyi", "Yang")
+  ),
+  journal = "Genome Biology",
+  year = "2022",
+  volume = "23",
+  number = "49",
+  doi = "10.1186/s13059-022-02622-0",
+  url = "https://doi.org/10.1186/s13059-022-02622-0",
+  textVersion = "Yu L, Cao Y, Yang JYH, Yang P (2022). Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data. Genome Biology, 23, 49. doi:10.1186/s13059-022-02622-0"
+)
+
+citEntry(
+  entry = "Article",
+  title = "Autoencoder-based cluster ensembles for single-cell RNA-seq data analysis",
+  author = personList(
+    person("Thomas A.", "Geddes"),
+    person("Taiyun", "Kim"),
+    person("Lihao", "Nan"),
+    person("James G.", "Burchfield"),
+    person("Jean Yee Hwa", "Yang"),
+    person("Dacheng", "Tao"),
+    person("Pengyi", "Yang")
+  ),
+  journal = "BMC Bioinformatics",
+  year = "2019",
+  volume = "20",
+  number = "660",
+  doi = "10.1186/s12859-019-3179-5",
+  url = "https://doi.org/10.1186/s12859-019-3179-5",
+  textVersion = "Geddes TA, Kim T, Nan L, Burchfield JG, Yang JYH, Tao D, Yang P (2019). Autoencoder-based cluster ensembles for single-cell RNA-seq data analysis. BMC Bioinformatics, 20, 660. doi:10.1186/s12859-019-3179-5"
+)

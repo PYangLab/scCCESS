@@ -8,7 +8,7 @@
 #' @param minReads minimum reads count (UMI) per cell
 #' @param minGene minimum gene that have counts (UMI) more than \code{minCountsperGene}
 #' @param minCountsperGene minimum counts (UMI) are required for each gene
-#' @param removeZeroGene remove genes that has zero counts were detected in the cell
+#' @param removeZeroGene remove genes with zero total counts across all retained cells
 #'
 #' @return a filtered scRNAseq expression matrix
 #'
@@ -31,10 +31,11 @@ prefilter = function(table, minReads = 1000, minGene = 100, minCountsperGene = 1
   keepGene = nGene >= minGene
   ZeroGene = rowSums(table)
   if (removeZeroGene == TRUE ){
-    removeGene = ZeroGene = 0
+    removeGene = ZeroGene == 0
     dat.filtered = table[!removeGene, keepLibrary & keepGene]
     dat.filtered = log2( dat.filtered + 1 )
   }else{
+    removeGene = rep(FALSE, nrow(table))
     dat.filtered = table[, keepLibrary & keepGene]
     dat.filtered = log2( dat.filtered + 1 )
   }
