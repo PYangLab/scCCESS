@@ -1,4 +1,4 @@
-# scCCESS
+# scCCESS <a href="https://github.com/PYangLab/scCCESS"><img src="https://i.imgur.com/frCIqJk.png" title="SnapCCESS hex sticker" align="right" height="138" /></a>
 
 scCCESS implements **single-cell Consensus Clusters of Encoded Subspaces** for
 single-cell RNA-seq clustering and cell-type number estimation. It combines
